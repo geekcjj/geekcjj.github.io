@@ -1,0 +1,104 @@
+$def with(mp3url="static/music/10.mp3")
+<!DOCTYPE HTML >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>手机</title>
+<style type="text/css">
+*{ background-image:url(static/images/dh_bg1.jpg); background-position:center; background-repeat:no-repeat; background-size:cover;width:auto;; height:auto;}
+#music{ width:322px; height:670px; background:; margin:auto;}
+#top1{ background:url(static/images/phone_top.png); height:42px;}
+#top2{ background:url(static/images/top.jpg); height:20px; width:322px;}
+#main_music{ width:320px; border-left:solid #FFF 1px; border-right: solid #FFF 1px;height:561px; background-image:url(static/images/main_music.jpg); background-size: cover;background-repeat: no-repeat; background-position: center;}
+#top3{ background:url(static/images/phone_bottom.png); height:47px;}
+#input_search{width:200px; background:#FFF; border:none; text-decoration:overline; height:25px; border:solid #F00 2px; border-radius:15px; }
+#search_btn{ width:35px; height:25px; border:none; background:#3CF; border-radius:10px; margin-bottom:auto; margin-top:auto; margin-right:0px; }
+.song{ width:300px; height:466px; background-size:cover;  margin:auto; font-size:9px; background:none; overflow:hidden; text-height:auto;}
+#text{ background:none; display: none;}
+#play{ background:none; width:320px; height:60px; margin-bottom:0px; margin-top:auto; position:relative;}
+</style>
+</head><body bgcolor="#FFFFFF" text="#FF0000">
+<div id="music">
+<div id="top1"></div>
+<div id="top2"></div>
+<div id="main_music" align="center">
+<form style="width:320; background: none; height:35px;" action="/s" method="GET" ><span  style="width:30px; background:none; margin-bottom:auto; margin-top:auto;"><font size="3" style="background:none;"><a href="http://s.music.163.com/search/get/?type=1&s=%E8%BD%AC%E5%BC%AF%E5%90%B4%E5%A5%87%E9%9A%86&limit=1" style="text-decoration:none; background:none;"><font color="#00FF00" style="background:none;">歌曲:</font></a></font></span>
+  <input id="input_search" type="text" name="name"/>
+  <input id="search_btn" type="submit" value="搜索" /></form>
+<div class="song">
+ 
+</div>
+<div id="play">
+  <div class="btn" style="width:30px; height:30px; margin:auto; background-size:cover; background-repeat:no-repeat; background-position:center; background-image:url(static/images/play.png);" ></div>
+
+</div>
+</div>
+<div id="top3"></div>
+</div>
+
+<textarea role="textbox" id="text" >
+[00:00.60]相伴潭州——潭州学院校歌（作词/编曲/演唱：潭州学院）
+[00:01.55]歌词制作 
+[00:02.25]古潭州   源流长     书院镇潇湘
+[00:07.26]到如今    薪火旺    再铸新辉煌
+[00:12.86]跨深壑    品类广    传道授业忙
+[00:17.96]攀险峰    传奇唱     续书新篇章
+[00:23.37]风雨同舟  江湖共闯  劈破万里浪
+[00:28.50]相伴有你   日月光芒  将前途照亮
+[00:33.97]夙兴夜寐   心念联网   只为学员想
+[00:39.32]相伴有你   携手图强   奋斗在路上
+[00:46.53]筑平台   伟业昌   悲欢众担当
+[00:56.42]虹之玉   各一方   甘苦齐分尝
+[01:06.30]风雨同舟   江湖共闯   劈破万里浪
+[01:12.43]相伴有你   日月光芒   将前途照亮
+[01:18.00]夙兴夜寐   心念联网   只为学员想
+[01:23.23]相伴有你   携手图强   奋斗在路上
+[01:28.66]相伴有你   携手图强   奋斗在路上
+[01:36.67]
+</textarea>
+
+<audio id="mymusic" src="$:mp3url">
+</audio>
+<script>
+var btn=document.getElementsByClassName("btn")[0];
+var music=document.getElementById("mymusic");
+var text=document.getElementById("text");
+var m_song=document.getElementsByClassName("song")[0];
+var mark=true;
+btn.onclick=function(){
+	if(mark)
+	{
+	music.play();
+	mark=false;
+	}else{
+		music.pause();
+		mark=true;
+	}
+}
+//console.log(btn)
+var lrc=text.value;
+var lrcarr=lrc.split("[");
+var html='';//保存歌词
+for(var i=0;i<lrcarr.length;i++){
+	var arr=lrcarr[i].split("]");
+	var times=arr[0].split(".");
+	var time=times[0].split(":");
+	var ms=time[0]*60+time[1]*1;
+	if(arr[1]){
+		html+="<p id="+ms+">"+arr[1]+"</p>";
+	}
+}
+m_song.innerHTML=html;
+var op=document.getElementsByTagName("p");
+music.addEventListener("timeupdate",function(){
+	var cutime=parseInt(this.currentTime);
+	if(document.getElementById(cutime)){
+		for(var i=0;i<op.length;i++){
+			op[i].style.color="#fff";
+		}
+		document.getElementById(cutime).style.color="#ff0000";
+	}
+})
+</script>
+</body>
+</html>
